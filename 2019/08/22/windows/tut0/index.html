@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="windows下操作ESP（EFI分区）"><meta name="keywords" content="ESP,EFI分区"><meta name="author" content="长沙刘哥"><meta name="copyright" content="长沙刘哥"><title>windows下操作ESP（EFI分区） | 泉水湖畔</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.4.0'
+} </script><meta name="generator" content="Hexo 5.4.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DISKPART-%E6%93%8D%E4%BD%9CEFI%E5%88%86%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">DISKPART 操作EFI分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-%E4%B8%8B%E5%88%86%E5%8C%BA%E8%A1%A8%E7%B1%BB%E5%9E%8B%E4%BB%A5%E5%8F%8A%E7%B1%BB%E5%9E%8B%E6%A0%87%E8%AF%86-GUID"><span class="toc-number">2.</span> <span class="toc-text">Windows 下分区表类型以及类型标识(GUID)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%89%B9%E6%AE%8A%E7%9A%84%E5%88%86%E5%8C%BA"><span class="toc-number">3.</span> <span class="toc-text">Windows特殊的分区</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">长沙刘哥</div><div class="author-info__description text-center">这里存档的是长沙刘哥的一些思考与实践文档，所以个人日志性质。</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">5</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">8</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">3</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">泉水湖畔</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right"></span></div><div id="post-info"><div id="post-title">windows下操作ESP（EFI分区）</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-08-22</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/windows/">windows</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="DISKPART-操作EFI分区"><a href="#DISKPART-操作EFI分区" class="headerlink" title="DISKPART 操作EFI分区"></a>DISKPART 操作EFI分区</h2><ol>
+<li>首先以管理员权限打开cmd</li>
+<li>输入diskpart  进入磁盘操作指令</li>
+<li>list disk 查看所有硬盘的情况</li>
+<li>sel disk number 选择相应的要进行操作的硬盘<br> sel disk 2</li>
+<li>list par 列出该硬盘所有的分区</li>
+<li>sel par 4 选择相应的分区</li>
+<li>设置为基本数据分区<br> set id=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7</li>
+<li>挂载到x盘符 assign letter=x，如果删除盘符则执行：remove letter=x<br>然后进行操作就可以，如果要还原为EFI分区则执行下面指令：set id=C12A7328-F81F-11D2-BA4B-00A0C93EC93B<img src="/2019/08/22/windows/tut0/esp-op.png" class="" title="[windows操作EFI分区]"></li>
+</ol>
+<h2 id="Windows-下分区表类型以及类型标识-GUID"><a href="#Windows-下分区表类型以及类型标识-GUID" class="headerlink" title="Windows 下分区表类型以及类型标识(GUID)"></a>Windows 下分区表类型以及类型标识(GUID)</h2><table>
+<thead>
+<tr>
+<th>分区类型</th>
+<th>分区类型 GUID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EFI 系统分区</td>
+<td>c12a7328-f81f-11d2-ba4b-00a0c93ec93b</td>
+</tr>
+<tr>
+<td>基本数据分区</td>
+<td>ebd0a0a2-b9e5-4433-87c0-68b6b72699c7</td>
+</tr>
+<tr>
+<td>Microsoft 保留分区</td>
+<td>e3c9e316-0b5c-4db8-817d-f92df00215ae</td>
+</tr>
+<tr>
+<td>动态磁盘上的 LDM 元数据分区</td>
+<td>5808c8aa-7e8f-42e0-85d2-e1e90434cfb3</td>
+</tr>
+<tr>
+<td>群集元数据分区</td>
+<td>db97dba9-0840-4bae-97f0-ffb9a327c7e1</td>
+</tr>
+</tbody></table>
+<h2 id="Windows特殊的分区"><a href="#Windows特殊的分区" class="headerlink" title="Windows特殊的分区"></a>Windows特殊的分区</h2><table>
+<thead>
+<tr>
+<th>分区</th>
+<th>需求</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP</td>
+<td>必须</td>
+<td>EFI 系统分区 (ESP)，存放系统文件以供引导启动</td>
+</tr>
+<tr>
+<td>MSR    Windows</td>
+<td>必须</td>
+<td>Windows 系统特有分区，包含与其他系统分区有关的信息，供 Microsoft 应用程序使用。</td>
+</tr>
+<tr>
+<td>恢复</td>
+<td>可选</td>
+<td>可选分区，用于存放系统恢复、加密保护工具等。</td>
+</tr>
+</tbody></table>
+<p> 大家可以输入：<strong>diskmgmt.msc</strong> 命令查看磁盘分区情况。</p>
+<img src="/2019/08/22/windows/tut0/diskmgmt.png" class="" title="[diskmgmt.msc管理界面]">
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">长沙刘哥</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://springlake.cn/2019/08/22/windows/tut0/">https://springlake.cn/2019/08/22/windows/tut0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://springlake.cn">泉水湖畔</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ESP/">ESP</a><a class="post-meta__tags" href="/tags/EFI%E5%88%86%E5%8C%BA/">EFI分区</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2019/08/23/windows/tut1/"><i class="fa fa-chevron-left">  </i><span>Windows 10中如何将MBR分区表转成GPT，并使用UEFI方式启动</span></a></div><div class="next-post pull-right"><a href="/2019/08/22/mac/hackintosh-basic/"><span>黑苹果安装指南之基础</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By 长沙刘哥</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="icp"><a><span>湘ICP 1991919</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.0"></script><script src="/js/fancybox.js?version=1.9.0"></script><script src="/js/sidebar.js?version=1.9.0"></script><script src="/js/copy.js?version=1.9.0"></script><script src="/js/fireworks.js?version=1.9.0"></script><script src="/js/transition.js?version=1.9.0"></script><script src="/js/scroll.js?version=1.9.0"></script><script src="/js/head.js?version=1.9.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
